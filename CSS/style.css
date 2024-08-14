@@ -13,7 +13,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0faff;
+  background:#2e2e2e;
 }
 
 .wrapper {
@@ -22,7 +22,7 @@ body {
   width: 100%;
   border-radius: 12px;
   padding: 20px 30px 120px;
-  background: #4070f4;
+  background: #1e1e1e;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
@@ -130,7 +130,7 @@ form input[type="submit"] {
 }
 
 .form.login input[type="submit"] {
-  background: #4070f4;
+  background: #2e2e2e;
   color: #fff;
   border: none;
 }
