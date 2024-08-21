@@ -7,16 +7,29 @@
     <link rel="stylesheet" href="../CSS/stylesHistory.css">
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo">PeerShare</div>
-            <nav>
-                <a href="#">Home</a>
-                <a href="#">Profile</a>
-                <a href="#">Sign Out</a>
+    <header class="header-area">
+        <!-- site-navbar start -->
+        <div class="navbar-area">
+          <div class="container">
+            <nav class="site-navbar">
+              <!-- site logo -->
+              <a href="#home" class="site-logo">BeamDrop</a>
+              <!-- site menu/nav -->
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Share</a></li>
+                <li><a href="#">History</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><button class="btn-hover color-3">LOGOUT</button></li>
+              </ul>
+              <!-- nav-toggler for mobile version only -->
+              <button class="nav-toggler">
+                <span></span>
+              </button>
             </nav>
-        </header>
-
+          </div>
+        </div><!-- navbar-area end -->
+      </header>
         <section class="history-section">
             <h1>Transfer History</h1>
             <div class="search-bar">
@@ -85,8 +98,7 @@
         <footer class="footer">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
-            <p>&copy; 2023 PeerShare. All rights reserved.</p>
+            <p>&copy; 2023 BeamDrop. All rights reserved.</p>
         </footer>
-    </div>
 </body>
 </html>
