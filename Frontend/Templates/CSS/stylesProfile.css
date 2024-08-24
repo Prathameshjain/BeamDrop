@@ -1,0 +1,60 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+/* General Styles */
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #000000;
+  color: #f5f5f5;
+}
+
+/* Profile Section */
+.profile-section {
+  flex: 1;
+  padding: 20px;
+}
+
+.profile-card {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-card h2 {
+  margin-bottom: 15px;
+}
+
+.profile-details, .account-settings, .customization-options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-details div, .account-settings div, .customization-options div {
+  width: 48%;
+}
+
+.profile-details p, .account-settings p, .customization-options p {
+  margin: 5px 0;
+}
+
+.theme-option label, .notifications-option label {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.save-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #555;
+  color: #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+  background-color: #666;
+}

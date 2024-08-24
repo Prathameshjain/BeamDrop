@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+    <header class="header-area">
+  <!-- site-navbar start -->
+  <div class="navbar-area">
+    <div class="container">
+      <nav class="site-navbar">
+        <!-- site logo -->
+        <a href="#" class="site-logo">BeamDrop</a>
+        <!-- site menu/nav -->
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Share</a></li>
+          <li><a href="#">History</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><button class="btn-hover color-3" id="logout-btn">LOGOUT</button></li>
+        </ul>
+        <!-- nav-toggler for mobile version only -->
+        <button class="nav-toggler">
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </div><!-- navbar-area end -->
+</header>
+<script>
+  const logo = document.querySelector('.site-logo');
+logo.addEventListener('click', () => {
+  window.location.href = '/homepage';
+});
+
+  const homeLink = document.querySelectorAll('li')[0];
+  homeLink.addEventListener('click', () => {
+    window.location.href = '/homepage';
+  });
+
+  const shareLink = document.querySelectorAll('li')[1];
+  shareLink.addEventListener('click', () => {
+    window.location.href = '/TransPage';
+  });
+
+  const historyLink = document.querySelectorAll('li')[2];
+  historyLink.addEventListener('click', () => {
+    window.location.href = '/TransHistory';
+  });
+
+  const profileLink = document.querySelectorAll('li')[3];
+  profileLink.addEventListener('click', () => {
+    window.location.href = '/UserProfile';
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', function() {
+    window.location.href = '/';
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch('../partials/header.hbs')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading header:', error));
+});
+</script>
+<style>
+/* Header Styles */
+/* navbar regular css start */
+.navbar-area {
+  background: rgba(0,0,0,.6);
+  border-bottom: 1px solid #000;
+}
+.site-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+a.site-logo {
+  font-size: 40px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  margin-left: 10;
+}
+.site-navbar ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+.site-navbar ul li a {
+  color: #fff;
+  padding: 28px;
+  display: block;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.site-navbar ul li a:hover {
+  color: #000000;
+  background-color: #ffffff;
+  transform: scale(1.0); /* magnify the card */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* add a subtle shadow */
+  transition: all 0.3s ease-in-out; /* smooth transition */
+}
+/* navbar regular css end */
+
+
+/* nav-toggler css start */
+.nav-toggler {
+  border: 3px solid #fff;
+  padding: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  height: 35px;
+  display: none;
+}
+.nav-toggler span, 
+.nav-toggler span:before, 
+.nav-toggler span:after {
+  width: 28px;
+  height: 3px;
+  background-color: #fff;
+  display: block;
+  transition: .3s;
+}
+.nav-toggler span:before {
+  content: '';
+  transform: translateY(-9px);
+}
+.nav-toggler span:after {
+  content: '';
+  transform: translateY(6px);
+}
+.nav-toggler.toggler-open span {
+  background-color: transparent;
+}
+.nav-toggler.toggler-open span:before {
+  transform: translateY(0px) rotate(45deg);
+}
+.nav-toggler.toggler-open span:after {
+  transform: translateY(-3px) rotate(-45deg);
+}
+/* nav-toggler css start */
+/* mobile breakpoint start */
+@media screen and (max-width: 767px) {
+  .container {
+    max-width: 720px;
+  }
+  /* navbar css for mobile start */
+  .nav-toggler{
+    display: block;
+  }
+  .site-navbar {
+    min-height: 60px;
+  }
+  .site-navbar ul {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 60px);
+    left: 0;
+    top: 60px;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid #444;
+    background-color: rgba(0,0,0,.75);
+    max-height: 0;
+    overflow: hidden;
+    transition: .3s;
+  }
+  .site-navbar ul li {
+    width: 100%;
+    text-align: center;
+  }
+  .site-navbar ul li a {
+    padding: 25px;
+  }
+  .site-navbar ul li a:hover {
+    background-color: rgba(255,255,255,.1);
+  }
+  .site-navbar ul.open {
+    max-height: 100vh;
+    overflow: visible;
+  }
+
+  /* navbar css for mobile end */
+}
+/* mobile breakpoint end */
+.buttons {
+  margin: 10%;
+  text-align: center;
+}
+
+.btn-hover {
+  width: 150px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 20px;
+  height: 40px;
+  text-align:center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 50px;
+ moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .0s ease-in-out;
+}
+
+.btn-hover:hover {
+  background-position: 100% 0;
+  moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.btn-hover:focus {
+  outline: none;
+}
+.btn-hover.color-3 {
+  background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, #8E37D7);
+  box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+}
+</style>
+</html>

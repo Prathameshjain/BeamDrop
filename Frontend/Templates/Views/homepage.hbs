@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeamDrop</title>
+    <link rel="stylesheet" href="../CSS/styleshome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<body>
+    {{>header}}
+      <div class="ground">
+    <main>
+        <section class="welcome-section">
+            <h1 style="color:white;">Welcome to BeamDrop</h1>
+            <p>PeerShare is a platform that allows you to easily transfer and receive files between devices. Enjoy a seamless experience with our user-friendly interface.</p>
+            <div class="feature-cards">
+                <div class="card" id="transfer">
+                    <h2>Transfer/Receive</h2>
+                    <p1>Easily transfer files between your devices with our platform.</p>
+                </div>
+                <div class="card" id="history">
+                    <h2>History</h2>
+                    <p1>Keep track of your transfers with our detailed history log.</p>
+                </div>
+                <div class="card" id="profile">
+                    <h2>Profile</h2>
+                    <p1>Manage your profile and account settings with ease.</p>
+                </div>
+            </div>
+        </section>
+        <script>
+  const transferCard = document.getElementById('transfer');
+  transferCard.addEventListener('click', () => {
+    window.location.href = '/TransPage';
+  });
+
+  const historyCard = document.getElementById('history');
+  historyCard.addEventListener('click', () => {
+    window.location.href = '/TransHistory';
+  });
+
+  const profileCard = document.getElementById('profile');
+  profileCard.addEventListener('click', () => {
+    window.location.href = '/UserProfile';
+  });
+</script>
+    </main>
+  {{>footer}}
+  </div>
+</body>
+</html>

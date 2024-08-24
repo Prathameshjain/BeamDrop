@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer/Receive Files</title>
+    <link rel="stylesheet" href="../CSS/stylesTrans.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<body>
+     {{>header}}
+    <div class="container">
+        <section class="transfer-section">
+            <div class="transfer-header">
+                <h2>Transfer/Receive Files</h2>
+                <p>Discover nearby devices to send or receive files effortlessly.</p>
+                <div class="transfer-buttons">
+                    <button class="transfer-btn">Send Files</button>
+                    <button class="transfer-btn active">Receive Files</button>
+                </div>
+            </div>
+
+            <div class="devices-section">
+                <h3>Available Devices</h3>
+                <div class="device-card">
+                    <span>John's Laptop</span>
+                    <button class="transfer-device-btn">Transfer</button>
+                </div>
+                <div class="device-card">
+                    <span>Jane's Phone</span>
+                    <button class="transfer-device-btn">Transfer</button>
+                </div>
+                <div class="device-card">
+                    <span>Alex's Tablet</span>
+                    <button class="transfer-device-btn">Transfer</button>
+                </div>
+            </div>
+        </section>
+        
+        <script>
+            const transferButtons = document.querySelectorAll('.transfer-device-btn');
+            transferButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                window.location.href = '/TransUpload';
+            });
+            });
+        </script>
+
+        {{>footer}}
+    </div>
+</body>
+</html>

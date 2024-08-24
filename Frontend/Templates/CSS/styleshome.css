@@ -1,0 +1,66 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #000000;
+  color: #f5f5f5;
+}
+
+/* Main Content Styles */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(450px - 80px); /* Adjust height relative to header/footer */
+  padding: 2rem;
+  margin-top: 10vh; /* Adjust to account for the fixed header height */
+  margin-bottom: 10vh; 
+}
+
+.welcome-section {
+  text-align: center;
+}
+
+.welcome-section h1 {
+  font-size: 4vw;
+  margin-bottom: 3rem;
+}
+
+.welcome-section p {
+  font-size: 1.3vw;
+  margin-bottom: 4rem;
+}
+
+.feature-cards {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #333333;
+  padding: 1.5rem;
+  border-radius: 30px;
+  width: 20vw; /* Responsive width */
+  min-width: 150px;
+}
+.card:hover {
+  color: #000000;
+  background-color: #ffffff;
+  transform: scale(1.1); /* magnify the card */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* add a subtle shadow */
+  transition: all 0.3s ease-in-out; /* smooth transition */
+}
+
+.card h2 {
+  font-size: 2vw;
+  margin-bottom: 1rem;
+}
+
+.card p {
+  font-size: 1.2vw; 
+}
+
