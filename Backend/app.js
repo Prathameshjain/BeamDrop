@@ -5,10 +5,14 @@ const portfinder = require('portfinder');
 const hbs = require("hbs");
 
 require("./database/conn.js");
+const registration = require("./models/registration.js");
 
 const template_path = path.join(__dirname, "../Frontend/Templates/views");
 const partials_path = path.join(__dirname, "../Frontend/Templates/partials");
 const css_path = path.join(__dirname, "../Frontend/Templates/CSS/");
+
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 app.set("view engine", "hbs");
 app.set("views", template_path);
@@ -22,6 +26,43 @@ app.get("/", (req, res) => {
 
 app.get('/homepage', (req, res) => {
     res.render('homepage');
+});
+
+app.post('/', async(req, res) => {
+  try {
+    const userregister = new registration({
+      fullname: req.body.fullname,
+      email: req.body.email,
+      passwordregister: req.body.passwordregister,
+    })
+    const registered = await userregister.save();
+    res.status(201).render("homepage");
+    
+  } catch (error) {
+    const userInput = {
+      fullname: req.body.fullname,
+      email: req.body.email,
+      passwordregister: req.body.passwordregister
+    };
+
+    if (error.name === 'ValidationError') {
+      // Extract error messages
+      const errorMessages = Object.values(error.errors).map(err => err.message);
+      res.status(400).render("index", {
+        errorMessage: errorMessages.join(' '),
+        userInput: userInput 
+      });
+    }
+    else if (error.code === 11000) {
+      res.status(400).render("index", {
+        errorMessage: "Email already exists. Please use a different email.",
+        userInput: userInput 
+      });
+    } 
+    else {
+      res.status(500).send(error);
+    }
+  }
 });
 
 app.get('/TransPage', (req, res) => {

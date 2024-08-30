@@ -1,53 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>BeamDrop</title>
-    <link rel="stylesheet" href="../CSS/style.css" />
-    <script src="../custom-scripts.js" defer></script>
-  </head>
-  <body>
-    {{!header}}
-    <section class="wrapper">
-      <div class="form signup">
-        <header>Signup</header>
-        <form action="#">
-          <input type="text" placeholder="Full name" required />
-          <input type="text" placeholder="Email address" required />
-          <input type="password" placeholder="Password" required />
-          <div class="checkbox">
-            <input type="checkbox" id="signupCheck" />
-            <label for="signupCheck">I accept all terms & conditions</label>
-          </div>
-          <input type="submit" value="Signup" />
-        </form>
-      </div>
+  <title>BeamDrop</title>
+  <link rel="stylesheet" href="../CSS/style.css" />
+  <script src="../custom-scripts.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">   
+</head>
+<body>
+  {{!header}}
+  <section class="wrapper">
+    <div class="form signup">
+      <header>Signup</header>
+      <form action="#" method="POST">
+        <input type="text" name="fullname" value="{{userInput.fullname}}" placeholder="Full name" required />
+        <input type="text" name="email" value="{{userInput.email}}" placeholder="Email address" required />
+        <div class="password-container">
+          <input type="password" id="passwordSignup" name="passwordregister" value="{{userInput.password}}" class="password-field" placeholder="Password" required />
+          <i id="togglePasswordSignup" class="fa fa-eye" style="color: white;"></i>
+        </div>
 
-      <div class="form login">
-        <header>Login</header>
-        <form action="/homepage">
-          <input type="text" placeholder="Email address" required />
-          <input type="password" placeholder="Password" required />
-          <a href="#">Forgot password?</a>
-          <input type="submit" value="Login" />
-        </form>
-      </div>
+        <div class="checkbox">
+          <input type="checkbox" id="signupCheck" required />
+          <label for="signupCheck">I accept all terms & conditions</label>
+        </div>
+        {{#if errorMessage}}
+          <p>{{errorMessage}}</p>
+        {{/if}}
+        <input type="submit" value="Signup" />
+      </form>
+    </div>
 
-      <script>
-        const wrapper = document.querySelector(".wrapper"),
-          signupHeader = document.querySelector(".signup header"),
-          loginHeader = document.querySelector(".login header");
+    <div class="form login">
+      <header>Login</header>
+      <form action="/homepage">
+        <input type="text" placeholder="Email address" required />
+        <div class="password-container">
+          <input type="password" id="passwordLogin" placeholder="Password" class="password-field" required />
+          <i id="togglePasswordLogin" class="fa fa-eye" style="color: black ,  background: #fff;"></i>
+        </div>
 
-        loginHeader.addEventListener("click", () => {
-          wrapper.classList.add("active");
+        <a href="#">Forgot password?</a>
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+
+    <script>
+      const wrapper = document.querySelector(".wrapper"),
+        signupHeader = document.querySelector(".signup header"),
+        loginHeader = document.querySelector(".login header");
+
+      loginHeader.addEventListener("click", () => {
+        wrapper.classList.add("active");
+      });
+      signupHeader.addEventListener("click", () => {
+        wrapper.classList.remove("active");
+      });
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const togglePasswordSignup = document.getElementById('togglePasswordSignup');
+        const passwordInputSignup = document.getElementById('passwordSignup');
+        togglePasswordSignup.addEventListener('click', () => {
+          if (passwordInputSignup.type === 'password') {
+            passwordInputSignup.type = 'text';
+            togglePasswordSignup.classList.remove('fa-eye');
+            togglePasswordSignup.classList.add('fa-eye-slash');
+          } else {
+            passwordInputSignup.type = 'password';
+            togglePasswordSignup.classList.remove('fa-eye-slash');
+            togglePasswordSignup.classList.add('fa-eye');
+          }
         });
-        signupHeader.addEventListener("click", () => {
-          wrapper.classList.remove("active");
+
+        const togglePasswordLogin = document.getElementById('togglePasswordLogin');
+        const passwordInputLogin = document.getElementById('passwordLogin');
+        togglePasswordLogin.addEventListener('click', () => {
+          if (passwordInputLogin.type === 'password') {
+            passwordInputLogin.type = 'text';
+            togglePasswordLogin.classList.remove('fa-eye');
+            togglePasswordLogin.classList.add('fa-eye-slash');
+          } else {
+            passwordInputLogin.type = 'password';
+            togglePasswordLogin.classList.remove('fa-eye-slash');
+            togglePasswordLogin.classList.add('fa-eye');
+          }
         });
-      </script>
-    </section>
-     {{!footer}}
-  </body>
+      });
+    </script>
+  </section>
+  {{!footer}}
+</body>
 </html>

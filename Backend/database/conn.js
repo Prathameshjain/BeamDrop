@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/beamdrop")
+mongoose.connect("mongodb://localhost:27017/Beamdrop")
   .then(() => {
     console.log("Connection Successfull.");
   })
