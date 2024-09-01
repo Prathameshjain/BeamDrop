@@ -5,6 +5,57 @@ const portfinder = require('portfinder');
 const hbs = require("hbs");
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const http = require("http");
+const socketIO = require("socket.io");
+const server = http.createServer(app);
+const io = socketIO(server);
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+    socket.on("sender-join", (data) => {
+        console.log(`Sender joining room: ${data.uid}`);
+        socket.join(data.uid); // Join the sender to a room based on UID
+        console.log("Rooms after sender joins:", io.sockets.adapter.rooms);
+    });
+
+    socket.on("receiver-join", (data, callback) => {
+        const { uid } = data;
+        console.log(`Receiver attempting to join room: ${uid}`);
+        const roomExists = io.sockets.adapter.rooms.has(uid);
+        console.log(`Room exists: ${roomExists} for room ID: ${uid}`);
+        
+        if (roomExists) {
+            socket.join(uid);
+            console.log(`Receiver successfully joined room: ${uid}`);
+            socket.to(uid).emit("init", uid); // Notify the sender that the receiver has joined
+            if (typeof callback === 'function') {
+                callback({ success: true });
+            }
+        } else {
+            if (typeof callback === 'function') {
+                callback({ success: false, message: 'Room does not exist.' });
+            }
+        }
+    });
+
+  socket.on("file-meta", (data) => {
+      socket.to(data.uid).emit("fs-meta", data);
+  });
+
+  socket.on("fs-start", (data) => {
+      socket.to(data.uid).emit("fs-share", {}); // Signal to start the file sharing
+  });
+
+  socket.on("file-raw", (data) => {
+      socket.to(data.uid).emit("fs-share", data.buffer); // Transfer file chunks
+  });
+});
+
+
+
+
+
 
 require("./database/conn.js");
 const registration = require("./models/registration.js");
@@ -156,8 +207,14 @@ app.post('/logout', (req, res) => {
   });
 });
 
+app.get('/TransReceiver', checkAuthentication, (req, res) => {
+  res.render('TransReceiver', {
+    fullname: req.session.user.fullname
+  });
+});
+
 portfinder.getPort((err, port) => {
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
 });

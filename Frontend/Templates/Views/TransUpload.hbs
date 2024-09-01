@@ -11,10 +11,13 @@
      {{>header}}
     <div class="container">
             <div class="main">
+                <h1 style="color:white;">Transfer File, <br>{{fullname}} <br><br>
+                <button class="transfer-device-btn" id="sender-btn">Create Room</button>
+                <br><br><b id="room-id">Room Id:</b>
+                </h1>
                 <div class="file-upload-container">
                     <h1>Drag and Drop File Uploader</h1>
                     <div class="file-upload">
-        
                         <form class="file-upload-form" id="fileUploadForm">
                             <label for="file" class="file-upload-label" id="fileUploadLabel">
                                 <div class="file-upload-design">
@@ -41,6 +44,8 @@
             </div>
             
             <!-- Script JS -->
+            <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+
             <script>
                 const fileInput = document.getElementById('file');
                 const fileUploadLabel = document.getElementById('fileUploadLabel');
@@ -103,7 +108,25 @@
                     const i = parseInt(Math.floor(Math.log(size) / Math.log(k)));
                     return Math.round(100 * (size / Math.pow(k, i))) / 100 + ' ' + sizes[i];
                 } 
-                
+
+                // Sender-side code (Example for joining room):
+const senderBtn = document.getElementById('sender-btn');
+const roomIdDisplay = document.getElementById('room-id');
+const socket = io(); // Initialize socket connection
+
+// Function to generate a random room ID
+function generateID() {
+    return `${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}`;
+}
+
+// Event listener for creating a room
+senderBtn.addEventListener('click', () => {
+    const roomID = generateID();
+    roomIdDisplay.innerHTML = `Room ID: ${roomID}`;
+    console.log(`Room ID: ${roomID}`);
+    socket.emit('sender-join', { uid: roomID }); // Emit to server to join the room
+});
+
             </script>
          {{>footer}}
     </div>

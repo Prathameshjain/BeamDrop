@@ -11,9 +11,15 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "buffer": "^6.0.3",
     "express": "^4.19.2",
     "hbs": "^4.2.0",
     "mongoose": "^8.5.3",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
+    "streamsaver": "^2.0.6",
+    "uuid": "^10.0.0"
   }
 }

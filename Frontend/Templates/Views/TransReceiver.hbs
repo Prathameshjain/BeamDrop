@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeamDrop</title>
+    <link rel="stylesheet" href="../CSS/styleUpload.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<body>
+    {{>header}}
+    <div class="container">
+        <div class="main">
+            <h1 style="color:white;">Receive File, <br>{{fullname}} <br><br>
+            <button class="transfer-device-btn" id="join-btn">Join Room</button>
+            <br><br><input type="text" id="room-input" class="input" placeholder="Room ID"/>
+            <div id="status"></div>
+            </h1>
+        </div>
+        <!-- Script JS -->
+        <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+        <script>
+            const joinBtn = document.getElementById('join-btn');
+            const roomInput = document.getElementById('room-input');
+            const status = document.getElementById('status');
+            const socket = io(); // Initialize socket connection
+
+            joinBtn.addEventListener('click', () => {
+    const roomID = roomInput.value.trim();
+    
+    if (roomID) {
+        socket.emit('receiver-join', { uid: roomID }, (response) => {
+            if (response.success) {
+                status.innerText = `Successfully joined room ${roomID}`;
+                status.style.color = 'green';
+            } else {
+                status.innerText = response.message || 'Failed to join room';
+                status.style.color = 'red';
+            }
+        });
+    } else {
+        status.innerText = 'Please enter a room ID';
+        status.style.color = 'red';
+    }
+});
+
+        </script>
+        {{>footer}}
+    </div>
+</body>
+</html>

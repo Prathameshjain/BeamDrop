@@ -21,6 +21,30 @@ body {
 
 }
 
+.transfer-device-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #555;
+    color: #f5f5f5;
+    cursor: pointer;
+    transition: background-color 0.3s
+  }
+  .transfer-device-btn:hover {
+    background-color: #666;
+  }
+  .input {
+    height: 60px;
+    outline: none;
+    border: none;
+    padding: 0 15px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    border-radius: 8px;
+    background: #fff;
+  }
+
 .file-upload-container {
     display: flex;
     flex-direction: column;
