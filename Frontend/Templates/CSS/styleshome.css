@@ -13,9 +13,9 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(450px - 80px); /* Adjust height relative to header/footer */
+  height: calc(430px - 80px); /* Adjust height relative to header/footer */
   padding: 2rem;
-  margin-top: 10vh; /* Adjust to account for the fixed header height */
+  margin-top: -5vh; /* Adjust to account for the fixed header height */
   margin-bottom: 10vh; 
 }
 

@@ -1,18 +1,37 @@
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-/* General Styles */
-/* General Styles */
-body {
-  margin: 0;
+
+/* Ensure the html and body take full height */
+html, body {
+  height: 100%;
+  margin: 0px;
   font-family: Arial, sans-serif;
+}
+
+body {
   background-color: #000000;
   color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Profile Section */
 .profile-section {
-  flex: 1;
-  padding: 20px;
+  margin-top: 60px;
+  padding: 10px;
 }
 
 .profile-card {
@@ -39,11 +58,6 @@ body {
   margin: 5px 0;
 }
 
-.theme-option label, .notifications-option label {
-  margin-right: 10px;
-  cursor: pointer;
-}
-
 .save-btn {
   margin-top: 20px;
   padding: 10px 20px;
@@ -57,4 +71,15 @@ body {
 
 .save-btn:hover {
   background-color: #666;
+}
+
+/* Footer Styles */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #faf5f5;
+  padding: 10px 0;
+  z-index: 1000;
 }

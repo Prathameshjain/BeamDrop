@@ -50,8 +50,23 @@ logo.addEventListener('click', () => {
   });
 
   document.getElementById('logout-btn').addEventListener('click', function() {
-    window.location.href = '/';
+    fetch('/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Logout successful.');
+        window.location.href = '/';
+      } else {
+        console.error('Logout failed.');
+      }
+    })
+    .catch(error => console.error('Error:', error));
   });
+
   document.addEventListener("DOMContentLoaded", () => {
     fetch('../partials/header.hbs')
         .then(response => response.text())
@@ -66,7 +81,7 @@ logo.addEventListener('click', () => {
 /* navbar regular css start */
 .navbar-area {
   background: rgba(0,0,0,.6);
-  border-bottom: 1px solid #000;
+  border-bottom: 5px solid #000;
 }
 .site-navbar {
   display: flex;
@@ -79,7 +94,7 @@ a.site-logo {
   text-transform: uppercase;
   color: #fff;
   text-decoration: none;
-  margin-left: 10;
+  margin-left: 20px;
 }
 .site-navbar ul {
   margin: 0;

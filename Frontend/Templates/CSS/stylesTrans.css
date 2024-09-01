@@ -12,7 +12,7 @@ body {
 .transfer-section {
   flex: 1;
   padding: 20px;
-  margin-top: 40px;
+  margin-top: 10px;
   font-size: 135%;
 }
 
@@ -22,6 +22,7 @@ body {
 }
 
 .transfer-header h2 {
+  font-size: 3vw;
   margin-bottom: 10px;
 }
 

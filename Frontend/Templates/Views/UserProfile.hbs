@@ -3,63 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Settings</title>
+    <title>BeamDrop</title>
     <link rel="stylesheet" href="../CSS/stylesProfile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
 <body>
-     {{>header}}
-    <div class="container">
-        <section class="profile-section">
-            <div class="profile-card">
-                <h2>Profile Details</h2>
-                <div class="profile-details">
-                    <div>
-                        <p><strong>Full Name</strong></p>
-                        <p>Alex Johnson</p>
-                        <p><strong>Bio</strong></p>
-                        <p>Tech enthusiast and software developer.</p>
-                    </div>
-                    <div>
-                        <p><strong>Email</strong></p>
-                        <p>alex.johnson@example.com</p>
-                    </div>
-                </div>
-                <button class="save-btn">Save Changes</button>
-            </div>
-
-            <div class="profile-card">
-                <h2>Account Settings</h2>
-                <div class="account-settings">
-                    <div>
-                        <p><strong>Username</strong></p>
-                        <p>alexjohnson</p>
-                    </div>
-                    <div>
-                        <p><strong>Password</strong></p>
-                        <p>********</p>
+    {{>header}}
+    <div class="main-wrapper">
+        <div class="container">
+            <h1 style="color:white; text-align:center">User Profile Details</h1>
+            <section class="profile-section">
+                <div class="profile-card">
+                    <h2>Profile Details</h2>
+                    <div class="profile-details">
+                        <div>
+                            <p><strong>Full Name</strong></p>
+                            <p>{{fullname}}</p>
+                        </div>
+                        <div>
+                            <p><strong>Email</strong></p>
+                            <p>{{email}}</p>
+                        </div>
                     </div>
                 </div>
-                <button class="save-btn">Update Settings</button>
-            </div>
 
-            <div class="profile-card">
-                <h2>Customization Options</h2>
-                <div class="customization-options">
-                    <div class="theme-option">
-                        <p><strong>Theme</strong></p>
-                        <label><input type="radio" name="theme" checked> Dark</label>
-                        <label><input type="radio" name="theme"> Light</label>
+                <div class="profile-card">
+                    <h2>Account Settings</h2>
+                    <div class="account-settings">
+                        <div>
+                            <p><strong>Password</strong></p>
+                            <p>********</p>
+                        </div>
                     </div>
-                    <div class="notifications-option">
-                        <label><input type="checkbox" checked> Notifications</label>
-                    </div>
+                    <button class="save-btn">Change Password</button>
                 </div>
-                <button class="save-btn">Save Preferences</button>
-            </div>
-        </section>
-
-         {{>footer}}
+            </section>
+        </div>
     </div>
+    {{>footer}}
 </body>
 </html>

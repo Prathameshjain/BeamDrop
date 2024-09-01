@@ -11,10 +11,10 @@
 </head>
 <body>
   {{!header}}
-  <section class="wrapper">
+  <div class="wrapper {{#if showLogin}}active{{/if}}">
     <div class="form signup">
       <header>Signup</header>
-      <form action="#" method="POST">
+      <form action="/" method="POST">
         <input type="text" name="fullname" value="{{userInput.fullname}}" placeholder="Full name" required />
         <input type="text" name="email" value="{{userInput.email}}" placeholder="Email address" required />
         <div class="password-container">
@@ -35,21 +35,35 @@
 
     <div class="form login">
       <header>Login</header>
-      <form action="/homepage">
-        <input type="text" placeholder="Email address" required />
+      <form action="/login" method="POST">
+        <input type="hidden" id="formType" value="login" />
+        <input type="email" name="Loginemail" placeholder="Email address" value="{{userInput.Loginemail}}" required />
         <div class="password-container">
-          <input type="password" id="passwordLogin" placeholder="Password" class="password-field" required />
-          <i id="togglePasswordLogin" class="fa fa-eye" style="color: black ,  background: #fff;"></i>
+          <input type="password" name="Loginpassword" id="passwordLogin" placeholder="Password" class="password-field" required />
+          <i id="togglePasswordLogin" class="fa fa-eye" style="color: black; background: #fff;"></i>
         </div>
-
+        {{#if errorMessage1}}
+          <p>{{errorMessage1}}</p>
+        {{/if}}
         <a href="#">Forgot password?</a>
         <input type="submit" value="Login" />
       </form>
     </div>
+  </div>
 
-    <script>
-      const wrapper = document.querySelector(".wrapper"),
-        signupHeader = document.querySelector(".signup header"),
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.querySelector(".wrapper");
+      const formType = document.getElementById("formType").value;
+
+      // Add the "active" class based on the URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const showLogin = urlParams.get('showLogin');
+      if (showLogin) {
+        wrapper.classList.add("active");
+      }
+
+      const signupHeader = document.querySelector(".signup header"),
         loginHeader = document.querySelector(".login header");
 
       loginHeader.addEventListener("click", () => {
@@ -59,37 +73,36 @@
         wrapper.classList.remove("active");
       });
 
-      document.addEventListener('DOMContentLoaded', () => {
-        const togglePasswordSignup = document.getElementById('togglePasswordSignup');
-        const passwordInputSignup = document.getElementById('passwordSignup');
-        togglePasswordSignup.addEventListener('click', () => {
-          if (passwordInputSignup.type === 'password') {
-            passwordInputSignup.type = 'text';
-            togglePasswordSignup.classList.remove('fa-eye');
-            togglePasswordSignup.classList.add('fa-eye-slash');
-          } else {
-            passwordInputSignup.type = 'password';
-            togglePasswordSignup.classList.remove('fa-eye-slash');
-            togglePasswordSignup.classList.add('fa-eye');
-          }
-        });
-
-        const togglePasswordLogin = document.getElementById('togglePasswordLogin');
-        const passwordInputLogin = document.getElementById('passwordLogin');
-        togglePasswordLogin.addEventListener('click', () => {
-          if (passwordInputLogin.type === 'password') {
-            passwordInputLogin.type = 'text';
-            togglePasswordLogin.classList.remove('fa-eye');
-            togglePasswordLogin.classList.add('fa-eye-slash');
-          } else {
-            passwordInputLogin.type = 'password';
-            togglePasswordLogin.classList.remove('fa-eye-slash');
-            togglePasswordLogin.classList.add('fa-eye');
-          }
-        });
+      // Toggle Password Visibility
+      const togglePasswordSignup = document.getElementById('togglePasswordSignup');
+      const passwordInputSignup = document.getElementById('passwordSignup');
+      togglePasswordSignup.addEventListener('click', () => {
+        if (passwordInputSignup.type === 'password') {
+          passwordInputSignup.type = 'text';
+          togglePasswordSignup.classList.remove('fa-eye');
+          togglePasswordSignup.classList.add('fa-eye-slash');
+        } else {
+          passwordInputSignup.type = 'password';
+          togglePasswordSignup.classList.remove('fa-eye-slash');
+          togglePasswordSignup.classList.add('fa-eye');
+        }
       });
-    </script>
-  </section>
+
+      const togglePasswordLogin = document.getElementById('togglePasswordLogin');
+      const passwordInputLogin = document.getElementById('passwordLogin');
+      togglePasswordLogin.addEventListener('click', () => {
+        if (passwordInputLogin.type === 'password') {
+          passwordInputLogin.type = 'text';
+          togglePasswordLogin.classList.remove('fa-eye');
+          togglePasswordLogin.classList.add('fa-eye-slash');
+        } else {
+          passwordInputLogin.type = 'password';
+          togglePasswordLogin.classList.remove('fa-eye-slash');
+          togglePasswordLogin.classList.add('fa-eye');
+        }
+      });
+    });
+  </script>
   {{!footer}}
 </body>
 </html>
