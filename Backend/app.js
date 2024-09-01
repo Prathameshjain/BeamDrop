@@ -9,6 +9,7 @@ const http = require("http");
 const socketIO = require("socket.io");
 const server = http.createServer(app);
 const io = socketIO(server);
+const fs = require('fs');
 
 io.on("connection", (socket) => {
   console.log("A user connected");
@@ -16,14 +17,12 @@ io.on("connection", (socket) => {
   socket.on("sender-join", (data) => {
       console.log(`Sender joining room: ${data.uid}`);
       
-      // Leave previous room if any
       const previousRoom = Array.from(socket.rooms).find(room => room !== socket.id);
       if (previousRoom) {
           socket.leave(previousRoom);
           console.log(`Left previous room: ${previousRoom}`);
       }
 
-      // Join the new room
       socket.join(data.uid);
       console.log("Rooms after sender joins:", io.sockets.adapter.rooms);
   });
@@ -50,7 +49,7 @@ io.on("connection", (socket) => {
               callback({ success: false, message: 'Room does not exist.' });
           }
       }
-  })
+  });
 
   socket.on("file-meta", (data) => {
       socket.to(data.uid).emit("fs-meta", data);
@@ -61,10 +60,15 @@ io.on("connection", (socket) => {
   });
 
   socket.on("file-raw", (data) => {
-      socket.to(data.uid).emit("fs-share", data.buffer); // Transfer file chunks
-  });
+    const { uid, fileName, buffer } = data;
+    socket.to(uid).emit("fs-meta", { fileName: fileName, fileSize: buffer.byteLength });
+    socket.to(uid).emit("fs-share", buffer);
 });
 
+  socket.on('disconnect', () => {
+      console.log('User disconnected');
+  });
+});
 
 
 

@@ -10,40 +10,82 @@
 <body>
     {{>header}}
     <div class="container">
-        <div class="main">
+    <div class="main">
+        <div class="receive-section">
             <h1 style="color:white;">Receive File, <br>{{fullname}} <br><br>
             <button class="transfer-device-btn" id="join-btn">Join Room</button>
             <br><br><input type="text" id="room-input" class="input" placeholder="Room ID"/>
             <div id="status"></div>
             </h1>
         </div>
+        <div class="file-received-container" id="filesReceived">
+            <h1 style="color:white;">Received File</h1>
+        </div>
+    </div>
+</div>
+
         <!-- Script JS -->
         <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
         <script>
             const joinBtn = document.getElementById('join-btn');
             const roomInput = document.getElementById('room-input');
             const status = document.getElementById('status');
-            const socket = io(); // Initialize socket connection
+            const filesReceivedContainer = document.getElementById('filesReceived');
+            const socket = io();
+
+            let fileBuffer = [];
+            let currentFileName = '';
+            let totalFileSize = 0;
+            let receivedFileSize = 0;
 
             joinBtn.addEventListener('click', () => {
-    const roomID = roomInput.value.trim();
-    
-    if (roomID) {
-        socket.emit('receiver-join', { uid: roomID }, (response) => {
-            if (response.success) {
-                status.innerText = `Successfully joined room ${roomID}`;
-                status.style.color = 'green';
-            } else {
-                status.innerText = response.message || 'Failed to join room';
-                status.style.color = 'red';
-            }
-        });
-    } else {
-        status.innerText = 'Please enter a room ID';
-        status.style.color = 'red';
-    }
-});
+                const roomID = roomInput.value.trim();
+                
+                if (roomID) {
+                    socket.emit('receiver-join', { uid: roomID }, (response) => {
+                        if (response.success) {
+                            status.innerText = `Successfully joined room ${roomID}`;
+                            status.style.color = 'green';
+                        } else {
+                            status.innerText = response.message || 'Failed to join room';
+                            status.style.color = 'red';
+                        }
+                    });
+                } else {
+                    status.innerText = 'Please enter a room ID';
+                    status.style.color = 'red';
+                }
+            });
 
+            socket.on('fs-meta', (data) => {
+                currentFileName = data.fileName;
+                totalFileSize = data.fileSize;
+                receivedFileSize = 0;
+                fileBuffer = [];
+                console.log(`Receiving file: ${currentFileName}`);
+            });
+
+            socket.on('fs-share', (chunk) => {
+                if (chunk) {
+                    fileBuffer.push(new Uint8Array(chunk));
+                    receivedFileSize += chunk.byteLength;
+
+                    if (receivedFileSize >= totalFileSize) {
+                        const blob = new Blob(fileBuffer, { type: 'application/octet-stream' });
+                        const fileURL = URL.createObjectURL(blob);
+                        const fileLink = document.createElement('a');
+                        fileLink.href = fileURL;
+                        fileLink.download = currentFileName;
+                        fileLink.innerHTML =` <div class= "file">
+                            <img src="https://img.icons8.com/?size=256&id=11651&format=png" />
+                            <span class="file-name">Download ${currentFileName}</span>
+                        </div>
+                    `;
+                        filesReceivedContainer.appendChild(fileLink);
+                        console.log('File received and ready for download.');
+                    }
+                }
+            });
         </script>
         {{>footer}}
     </div>

@@ -21,6 +21,8 @@ body {
 
 }
 
+
+
 .transfer-device-btn {
     padding: 10px 20px;
     border: none;
@@ -136,4 +138,17 @@ body {
 .uploaded img {
     width: 20px;
     margin: 5px;
+}
+
+.file-received-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #000000;
+    align-items: center;
+}
+
+.file-received-container h1 {
+    margin: 0; /* Remove default margin */
+    color: #333; /* Optional: Set a specific color */
 }
