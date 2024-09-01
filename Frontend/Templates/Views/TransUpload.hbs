@@ -50,7 +50,18 @@
                 const fileInput = document.getElementById('file');
                 const fileUploadLabel = document.getElementById('fileUploadLabel');
                 const filesUploadedContainer = document.getElementById('filesUploaded');
+                const senderBtn = document.getElementById('sender-btn');
+                const roomIdDisplay = document.getElementById('room-id');
+                const socket = io(); // Initialize socket connection
+                
+                let previousRoomID = null;
 
+                // Function to generate a random room ID
+                function generateID() {
+                    return `${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}`;
+                }
+
+                // Handle file input and drag-and-drop
                 fileUploadLabel.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     fileUploadLabel.classList.add('drag-over');
@@ -98,7 +109,7 @@
                 }
 
                 function truncateFileName(name, maxLength) {
-                    return name.length > 10 ? name.substring(0, maxLength) + '...' : name;
+                    return name.length > maxLength ? name.substring(0, maxLength) + '...' : name;
                 }
 
                 function formatFileSize(size) {
@@ -107,25 +118,23 @@
                     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
                     const i = parseInt(Math.floor(Math.log(size) / Math.log(k)));
                     return Math.round(100 * (size / Math.pow(k, i))) / 100 + ' ' + sizes[i];
-                } 
+                }
 
-                // Sender-side code (Example for joining room):
-const senderBtn = document.getElementById('sender-btn');
-const roomIdDisplay = document.getElementById('room-id');
-const socket = io(); // Initialize socket connection
+                // Event listener for creating a room
+                senderBtn.addEventListener('click', () => {
+                    const roomID = generateID();
+                    roomIdDisplay.innerHTML = `Room ID: ${roomID}`;
+                    console.log(`Room ID: ${roomID}`);
 
-// Function to generate a random room ID
-function generateID() {
-    return `${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}`;
-}
+                    // Leave previous room if it exists
+                    if (previousRoomID) {
+                        socket.emit('leave-room', { uid: previousRoomID });
+                    }
 
-// Event listener for creating a room
-senderBtn.addEventListener('click', () => {
-    const roomID = generateID();
-    roomIdDisplay.innerHTML = `Room ID: ${roomID}`;
-    console.log(`Room ID: ${roomID}`);
-    socket.emit('sender-join', { uid: roomID }); // Emit to server to join the room
-});
+                    // Join new room
+                    socket.emit('sender-join', { uid: roomID });
+                    previousRoomID = roomID;
+                });
 
             </script>
          {{>footer}}

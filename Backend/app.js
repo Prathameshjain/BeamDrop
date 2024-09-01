@@ -13,31 +13,44 @@ const io = socketIO(server);
 io.on("connection", (socket) => {
   console.log("A user connected");
 
-    socket.on("sender-join", (data) => {
-        console.log(`Sender joining room: ${data.uid}`);
-        socket.join(data.uid); // Join the sender to a room based on UID
-        console.log("Rooms after sender joins:", io.sockets.adapter.rooms);
-    });
+  socket.on("sender-join", (data) => {
+      console.log(`Sender joining room: ${data.uid}`);
+      
+      // Leave previous room if any
+      const previousRoom = Array.from(socket.rooms).find(room => room !== socket.id);
+      if (previousRoom) {
+          socket.leave(previousRoom);
+          console.log(`Left previous room: ${previousRoom}`);
+      }
 
-    socket.on("receiver-join", (data, callback) => {
-        const { uid } = data;
-        console.log(`Receiver attempting to join room: ${uid}`);
-        const roomExists = io.sockets.adapter.rooms.has(uid);
-        console.log(`Room exists: ${roomExists} for room ID: ${uid}`);
-        
-        if (roomExists) {
-            socket.join(uid);
-            console.log(`Receiver successfully joined room: ${uid}`);
-            socket.to(uid).emit("init", uid); // Notify the sender that the receiver has joined
-            if (typeof callback === 'function') {
-                callback({ success: true });
-            }
-        } else {
-            if (typeof callback === 'function') {
-                callback({ success: false, message: 'Room does not exist.' });
-            }
-        }
-    });
+      // Join the new room
+      socket.join(data.uid);
+      console.log("Rooms after sender joins:", io.sockets.adapter.rooms);
+  });
+
+  socket.on("leave-room", (data) => {
+      console.log(`Leaving room: ${data.uid}`);
+      socket.leave(data.uid);
+      console.log("Rooms after leaving:", io.sockets.adapter.rooms);
+  });
+
+  socket.on("receiver-join", (data, callback) => {
+      const { uid } = data;
+      const roomExists = io.sockets.adapter.rooms.has(uid);
+      console.log(`Room exists: ${roomExists} for room ID: ${uid}`);
+      
+      if (roomExists) {
+          socket.join(uid);
+          socket.to(uid).emit("init", uid); // Notify the sender that the receiver has joined
+          if (typeof callback === 'function') {
+              callback({ success: true });
+          }
+      } else {
+          if (typeof callback === 'function') {
+              callback({ success: false, message: 'Room does not exist.' });
+          }
+      }
+  })
 
   socket.on("file-meta", (data) => {
       socket.to(data.uid).emit("fs-meta", data);
