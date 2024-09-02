@@ -6,6 +6,31 @@ body {
   background-color: #000000;
   color: #f5f5f5;
 }
+@keyframes moveBackground {
+    0% { background-position: 0% 0%; }
+    25% { background-position: 10% 0%; }
+    50% { background-position: 20% 0%; }
+    75% { background-position: 30% 0%; }
+    100% { background-position: 40% 0%; }
+  }
+  header {
+    position: relative;
+    z-index: 2; 
+    background-color: #000000;
+  }
+  
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://media.licdn.com/dms/image/C4D12AQEwyvEnLPlPRQ/article-cover_image-shrink_720_1280/0/1616944778816?e=2147483647&v=beta&t=JDvn_R5XEO7v00QkEkZKHxMkJK-v4K7KKZCRnHRGb38') center center fixed;
+    background-size: 45%;
+    animation: moveBackground 20s infinite alternate;
+    z-index: -1; /* Place the background behind all content */
+  }
   
 .main {
     display: flex;
@@ -53,6 +78,7 @@ body {
     justify-content: center;
     background-color: #000000;
     align-items: center;
+    padding: 30px;
 }
 
 .file-upload-container h1 {

@@ -9,12 +9,30 @@
 }
 
 body {
+  position: relative;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background:#000000;
+  background: url('https://miro.medium.com/v2/resize:fit:3840/1*56BrgQwYF_OLIncPTZLGiw.gif') repeat center center fixed;
+  background-size: cover;
+  z-index: 1; /* Ensure the content inside the body is above the background */
 }
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Black color with 50% opacity */
+  z-index: -1; /* Ensure this overlay stays behind the content */
+}
+
+
 
 .wrapper {
   position: relative;

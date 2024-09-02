@@ -16,7 +16,7 @@
                 <p>Discover nearby devices to send files effortlessly .</p>
                 <div class="transfer-buttons">
                     <button class="transfer-device-btn">Send Files</button>
-                    <button class="transfer-device-btn">Direct Share</button>
+                    <button class="receive-device-btn">Receive Files</button>
                 </div>
             </div>
 
@@ -42,6 +42,12 @@
             transferButtons.forEach(button => {
             button.addEventListener('click', () => {
                 window.location.href = '/TransUpload';
+            });
+            });
+            const receiverButtons = document.querySelectorAll('.receive-device-btn');
+            receiverButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                window.location.href = '/TransReceiver';
             });
             });
         </script>
