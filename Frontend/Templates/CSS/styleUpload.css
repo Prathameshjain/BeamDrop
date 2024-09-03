@@ -30,25 +30,22 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://media.licdn.com/dms/image/C4D12AQEwyvEnLPlPRQ/article-cover_image-shrink_720_1280/0/1616944778816?e=2147483647&v=beta&t=JDvn_R5XEO7v00QkEkZKHxMkJK-v4K7KKZCRnHRGb38') center center fixed;
-    background-size: 45%;
+    background: url('https://i.pinimg.com/originals/c7/33/5a/c7335a3f2008962f7b3233a35ac5af31.gif') repeat-x center center fixed;
+    background-size: 60%;
     animation: moveBackground 20s infinite alternate;
     z-index: -1; /* Place the background behind all content */
 }
 
 /* Main Wrapper */
 .main {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
+    display: flex;/* Stack items vertically */
     justify-content: center;
     align-items: center;
-    background-color: #000000;
-    background-image: linear-gradient(315deg, #000000 100%, #f6f2f2 0%);
     border-radius: 10px;
     height: auto; /* Adjust to auto for dynamic height */
     padding: 2rem;
     margin-top: 10vh; /* Adjust to account for the fixed header height */
-    margin-bottom: 10vh;
+    margin-bottom: 20vh;
     box-sizing: border-box; /* Ensure padding and margin are included in height calculation */
 }
 
@@ -85,7 +82,6 @@ body::before {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #000000;
     align-items: center;
     padding: 30px;
 }
@@ -212,6 +208,7 @@ body::before {
         padding: 1rem; /* Adjust padding for smaller screens */
         margin-top: 5vh; /* Adjust margin for smaller screens */
         margin-bottom: 5vh;
+        flex-direction: column; 
     }
 
     .file-upload-container {
