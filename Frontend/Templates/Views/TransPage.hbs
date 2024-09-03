@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
 <body>
-     {{>header}}
+    {{>header}}
     <div class="container">
         <section class="transfer-section">
             <div class="transfer-header">
@@ -40,15 +40,15 @@
         <script>
             const transferButtons = document.querySelectorAll('.transfer-device-btn');
             transferButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                window.location.href = '/TransUpload';
-            });
+                button.addEventListener('click', () => {
+                    window.location.href = '/TransUpload';
+                });
             });
             const receiverButtons = document.querySelectorAll('.receive-device-btn');
             receiverButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                window.location.href = '/TransReceiver';
-            });
+                button.addEventListener('click', () => {
+                    window.location.href = '/TransReceiver';
+                });
             });
         </script>
 

@@ -1,5 +1,6 @@
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
 /* General Styles */
 body {
   margin: 0;
@@ -15,6 +16,7 @@ body {
   75% { background-position: 30% 0%; }
   100% { background-position: 40% 0%; }
 }
+
 header {
   position: relative;
   z-index: 2; 
@@ -31,15 +33,7 @@ body::before {
   background: url('https://media.licdn.com/dms/image/C4D12AQEwyvEnLPlPRQ/article-cover_image-shrink_720_1280/0/1616944778816?e=2147483647&v=beta&t=JDvn_R5XEO7v00QkEkZKHxMkJK-v4K7KKZCRnHRGb38') center center fixed;
   background-size: 45%;
   animation: moveBackground 20s infinite alternate;
-  z-index: -1; /* Place the background behind all content */
-}
-
-/* Transfer/Receive Section */
-.transfer-section {
-  flex: 1;
-  padding: 20px;
-  margin-top: 10px;
-  font-size: 135%;
+  z-index: -2; /* Place the background behind all content */
 }
 
 .transfer-header {
@@ -99,16 +93,7 @@ body::before {
   font-size: 18px;
 }
 
-.transfer-device-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #555;
-  color: #f5f5f5;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-.receive-device-btn {
+.transfer-device-btn, .receive-device-btn {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -118,9 +103,61 @@ body::before {
   transition: background-color 0.3s;
 }
 
-.transfer-device-btn:hover {
+.transfer-device-btn:hover,
+.receive-device-btn:hover {
   background-color: #666;
 }
-.transfer-device-btn:hover {
-  background-color: #666;
+
+/* Mobile Styles */
+@media screen and (max-width: 767px) {
+  body {
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+
+  .transfer-header h2 {
+    font-size: 5vw;
+    margin-bottom: 15px;
+  }
+
+  .transfer-header p {
+    font-size: 4vw;
+    margin-bottom: 25px;
+  }
+
+  .transfer-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .transfer-btn {
+    width: 80%; /* Make buttons take most of the screen width */
+    font-size: 4vw;
+  }
+
+  .devices-section {
+    margin: 0 5%; /* Add margin only to content */
+  }
+
+  .devices-section h3 {
+    font-size: 5vw;
+    margin-bottom: 15px;
+  }
+
+  .device-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .device-card span {
+    font-size: 4vw;
+    margin-bottom: 10px;
+  }
+
+  .transfer-device-btn, .receive-device-btn {
+    width: 100%;
+    font-size: 4vw;
+    margin-top: 10px;
+  }
 }

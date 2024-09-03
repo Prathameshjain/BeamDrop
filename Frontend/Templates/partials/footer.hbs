@@ -43,6 +43,7 @@ footer {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap-reverse;
+  flex-direction: row; /* Ensure items are row-based by default */
 }
 
 .logo {
@@ -78,7 +79,6 @@ footer p {
   color: black;
 }
 
-
 /* Media Queries for Smaller Screens */
 @media (max-width: 768px) {
   .nav-links {
@@ -102,6 +102,27 @@ footer p {
   .welcome-section p, .card p {
     font-size: 3vw; /* Larger font size for smaller screens */
   }
+
+  .footer_container {
+    flex-direction: column; /* Stack items vertically on mobile */
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Center text inside the footer */
+  }
+
+  .social_media {
+    margin: 10px 0; /* Adjust margin for mobile screens */
+    display: flex;
+    justify-content: center; /* Center social media icons */
+    gap: 10px; /* Add space between icons */
+  }
+
+  .social_media a {
+    font-size: 20px; /* Adjust font size for mobile screens */
+  }
+
+  .logo {
+    margin-bottom: 10px; /* Add space between logo and icons */
+  }
 }
 
 @media (max-width: 480px) {
@@ -121,10 +142,11 @@ footer p {
     padding: 1rem;
   }
 
-  .footer {
-    padding: 10px;
+  footer {
+    padding: 0px;
   }
 }
+
 
 </style>
 </html>

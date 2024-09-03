@@ -1,13 +1,13 @@
 /* Import Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-/* General Styles */
+
 /* General Styles */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #000000; /* Fallback color */
   color: #f5f5f5;
-  overflow: hidden; /* Prevent scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 @keyframes moveBackground {
@@ -18,12 +18,16 @@ body {
   100% { background-position: 40% 0%; }
 }
 header {
-  position: relative;
-  z-index: 2; 
   background-color: #000000;
+  position: relative;
+  z-index: 10; /* Higher z-index to stay above the background */
+}
+.footer, .main-content {
+  position: relative;
+  z-index: 10;
 }
 
-body::before {
+.homepage::before {
   content: "";
   position: absolute;
   top: 0;
@@ -33,7 +37,7 @@ body::before {
   background: url('https://media.licdn.com/dms/image/C4D12AQEwyvEnLPlPRQ/article-cover_image-shrink_720_1280/0/1616944778816?e=2147483647&v=beta&t=JDvn_R5XEO7v00QkEkZKHxMkJK-v4K7KKZCRnHRGb38') center center fixed;
   background-size: 45%;
   animation: moveBackground 20s infinite alternate;
-  z-index: 0; /* Place the background behind all content */
+  z-index: 0; /* Background behind content only on this page */
 }
 
 /* Main Content Styles */
@@ -91,4 +95,46 @@ main {
 
 .card p {
   font-size: 1.2vw; 
+}
+
+/* Media Query for Mobile Users */
+@media screen and (max-width: 767px) {
+  body {
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
+
+  main {
+    flex-direction: column;
+    height: auto; /* Allow height to adjust based on content */
+    margin-top: 0; /* Remove negative margin */
+    padding: 1rem;
+  }
+
+  .welcome-section h1 {
+    font-size: 6vw;
+    margin-bottom: 2rem;
+  }
+
+  .welcome-section p {
+    font-size: 3vw;
+    margin-bottom: 3rem;
+  }
+
+  .feature-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 80%; /* Make cards take most of the screen width */
+    margin-bottom: 2rem;
+  }
+
+  .card h2 {
+    font-size: 4vw;
+  }
+
+  .card p {
+    font-size: 3vw;
+  }
 }

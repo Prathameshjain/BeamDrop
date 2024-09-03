@@ -1,6 +1,14 @@
 <!DOCTYPE html>
-<html>
-    <header class="header-area">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeamDrop</title>
+    <link rel="stylesheet" href="../CSS/styleshome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+<body>
+<header class="header-area">
   <!-- site-navbar start -->
   <div class="navbar-area">
     <div class="container">
@@ -8,7 +16,7 @@
         <!-- site logo -->
         <a href="#" class="site-logo">BeamDrop</a>
         <!-- site menu/nav -->
-        <ul>
+        <ul id="nav-menu">
           <li><a href="#">Home</a></li>
           <li><a href="#">Share</a></li>
           <li><a href="#">History</a></li>
@@ -16,18 +24,29 @@
           <li><button class="btn-hover color-3" id="logout-btn">LOGOUT</button></li>
         </ul>
         <!-- nav-toggler for mobile version only -->
-        <button class="nav-toggler">
+        <button class="nav-toggler" id="nav-toggler">
           <span></span>
         </button>
       </nav>
     </div>
   </div><!-- navbar-area end -->
 </header>
+
 <script>
+  // Toggle the mobile menu
+  const navToggler = document.getElementById('nav-toggler');
+  const navMenu = document.getElementById('nav-menu');
+
+  navToggler.addEventListener('click', () => {
+    navMenu.classList.toggle('open');
+    navToggler.classList.toggle('toggler-open');
+  });
+
+  // Navigation link redirects
   const logo = document.querySelector('.site-logo');
-logo.addEventListener('click', () => {
-  window.location.href = '/homepage';
-});
+  logo.addEventListener('click', () => {
+    window.location.href = '/homepage';
+  });
 
   const homeLink = document.querySelectorAll('li')[0];
   homeLink.addEventListener('click', () => {
@@ -66,22 +85,13 @@ logo.addEventListener('click', () => {
     })
     .catch(error => console.error('Error:', error));
   });
-
-  document.addEventListener("DOMContentLoaded", () => {
-    fetch('../partials/header.hbs')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading header:', error));
-});
 </script>
+
 <style>
 /* Header Styles */
 /* navbar regular css start */
-
 .navbar-area {
-  background: rgba(0,0,0,0);
+  background: rgba(0, 0, 0, 0);
   border-bottom: 5px solid #000;
 }
 .site-navbar {
@@ -119,7 +129,6 @@ a.site-logo {
 }
 /* navbar regular css end */
 
-
 /* nav-toggler css start */
 .nav-toggler {
   border: 3px solid #fff;
@@ -129,8 +138,8 @@ a.site-logo {
   height: 35px;
   display: none;
 }
-.nav-toggler span, 
-.nav-toggler span:before, 
+.nav-toggler span,
+.nav-toggler span:before,
 .nav-toggler span:after {
   width: 28px;
   height: 3px;
@@ -155,14 +164,15 @@ a.site-logo {
 .nav-toggler.toggler-open span:after {
   transform: translateY(-3px) rotate(-45deg);
 }
-/* nav-toggler css start */
+/* nav-toggler css end */
+
 /* mobile breakpoint start */
 @media screen and (max-width: 767px) {
   .container {
     max-width: 720px;
   }
   /* navbar css for mobile start */
-  .nav-toggler{
+  .nav-toggler {
     display: block;
   }
   .site-navbar {
@@ -177,7 +187,7 @@ a.site-logo {
     flex-direction: column;
     align-items: center;
     border-top: 1px solid #444;
-    background-color: rgba(0,0,0,.75);
+    background-color: rgba(0, 0, 0, 0.75);
     max-height: 0;
     overflow: hidden;
     transition: .3s;
@@ -190,13 +200,12 @@ a.site-logo {
     padding: 25px;
   }
   .site-navbar ul li a:hover {
-    background-color: rgba(255,255,255,.1);
+    background-color: rgba(255, 255, 255, .1);
   }
   .site-navbar ul.open {
     max-height: 100vh;
     overflow: visible;
   }
-
   /* navbar css for mobile end */
 }
 /* mobile breakpoint end */
@@ -213,11 +222,11 @@ a.site-logo {
   cursor: pointer;
   margin: 20px;
   height: 40px;
-  text-align:center;
+  text-align: center;
   border: none;
   background-size: 300% 100%;
   border-radius: 50px;
- moz-transition: all .4s ease-in-out;
+  moz-transition: all .4s ease-in-out;
   -o-transition: all .4s ease-in-out;
   -webkit-transition: all .4s ease-in-out;
   transition: all .0s ease-in-out;
@@ -239,4 +248,5 @@ a.site-logo {
   box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
 }
 </style>
+</body>
 </html>

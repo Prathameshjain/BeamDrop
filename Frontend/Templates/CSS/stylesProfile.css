@@ -4,8 +4,8 @@
 /* Ensure the html and body take full height */
 html, body {
   height: 100%;
-  margin: 0px;
-  font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: Poppins, Arial, sans-serif;
 }
 
 body {
@@ -22,6 +22,7 @@ body {
   75% { background-position: 30% 0%; }
   100% { background-position: 40% 0%; }
 }
+
 header {
   position: relative;
   z-index: 2; 
@@ -49,6 +50,7 @@ body::before {
   box-sizing: border-box;
 }
 
+/* Make container responsive */
 .container {
   width: 100%;
   max-width: 100%;
@@ -73,11 +75,12 @@ body::before {
 
 .profile-details, .account-settings, .customization-options {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Stack elements vertically on mobile */
+  margin-bottom: 10px;
 }
 
 .profile-details div, .account-settings div, .customization-options div {
-  width: 48%;
+  width: 100%; /* Full width on mobile */
 }
 
 .profile-details p, .account-settings p, .customization-options p {
@@ -108,4 +111,24 @@ footer {
   background: #faf5f5;
   padding: 10px 0;
   z-index: 1000;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .profile-section {
+    padding: 5px;
+  }
+
+  .profile-card {
+    padding: 15px;
+  }
+
+  .profile-details div, .account-settings div, .customization-options div {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .save-btn {
+    width: 100%;
+  }
 }
