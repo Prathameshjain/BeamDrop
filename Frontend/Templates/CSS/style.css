@@ -21,6 +21,7 @@ body {
   z-index: 1; /* Ensure the content inside the body is above the background */
 }
 
+/* Overlay to darken the background */
 body::before {
   content: "";
   position: absolute;
@@ -28,11 +29,9 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3); /* Black color with 50% opacity */
+  background-color: rgba(0, 0, 0, 0.3); /* Black color with 30% opacity */
   z-index: -1; /* Ensure this overlay stays behind the content */
 }
-
-
 
 .wrapper {
   position: relative;
@@ -43,8 +42,10 @@ body::before {
   background: #1e1e1e;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  margin: 0 10px; /* Ensure there's margin on the sides for small screens */
 }
 
+/* Forms and transitions */
 .form.login {
   position: absolute;
   left: 50%;
@@ -200,3 +201,30 @@ form input[type="submit"] {
   text-align: center;
 }
 
+/* Media Queries for Mobile Devices */
+@media (max-width: 768px) {
+  body {
+    padding: 0 10px; /* Add padding on the sides */
+  }
+}
+
+@media (max-width: 480px) {
+  .form header {
+    font-size: 24px; /* Adjust header font size */
+  }
+
+  form input {
+    height: 50px; /* Adjust input height */
+    font-size: 14px; /* Adjust font size */
+  }
+
+  .password-field {
+    width: 90%; /* Full width for smaller screens */
+    padding: 0px 60px 0 15px; /* Adjust padding */
+  }
+
+  #togglePassword {
+    right: 10px; /* Adjust right position */
+    font-size: 18px; /* Adjust font size */
+  }
+}
