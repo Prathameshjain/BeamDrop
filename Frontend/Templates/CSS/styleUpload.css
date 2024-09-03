@@ -8,14 +8,14 @@ body {
   position: relative; /* Ensure body positioning for background overlay */
 }
 
-/* Background Animation */
+/* Background Animation
 @keyframes moveBackground {
     0% { background-position: 0% 0%; }
     25% { background-position: 10% 0%; }
     50% { background-position: 20% 0%; }
     75% { background-position: 30% 0%; }
     100% { background-position: 40% 0%; }
-}
+} */
 
 header {
     position: relative;
