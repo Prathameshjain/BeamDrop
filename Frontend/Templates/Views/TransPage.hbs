@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="../CSS/stylesTrans.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
-<body>
-    {{>header}}
-    <div class="container">
-        <section class="transfer-section">
+<body class="homepage">
+    <div class="ground">
+         {{>header}}
+        <main>
+            <section class="transfer-section">
             <div class="transfer-header">
                 <h2>Want To Transfer Files {{fullname}}?</h2>
                 <p>Discover nearby devices to send files effortlessly.</p>
@@ -26,8 +27,8 @@
                 <!-- Devices will be listed here dynamically -->
             </div>
         </section>
-        
-        <script>
+            
+            <script>
             const devicesSection = document.getElementById('devicesSection');
             const scanDevicesBtn = document.getElementById('scanDevicesBtn');
 
@@ -76,7 +77,7 @@
                 }
             });
         </script>
-
+        </main>
         {{>footer}}
     </div>
 </body>
