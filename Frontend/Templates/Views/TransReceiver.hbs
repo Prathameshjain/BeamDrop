@@ -38,6 +38,27 @@
             let totalFileSize = 0;
             let receivedFileSize = 0;
 
+             // Function to get room ID from URL parameters
+            function getRoomIDFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('roomID');
+            }
+            
+             // Check if room ID exists in URL and auto-fill and auto-join
+        const roomID = getRoomIDFromURL();
+        if (roomID) {
+            roomInput.value = roomID; // Auto-fill room ID
+            socket.emit('receiver-join', { uid: roomID }, (response) => {
+                if (response.success) {
+                    status.innerText = `Successfully joined room ${roomID}`;
+                    status.style.color = 'green';
+                } else {
+                    status.innerText = response.message || 'Failed to join room';
+                    status.style.color = 'red';
+                }
+            });
+        }
+
             joinBtn.addEventListener('click', () => {
                 const roomID = roomInput.value.trim();
                 

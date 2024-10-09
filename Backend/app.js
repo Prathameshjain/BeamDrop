@@ -10,6 +10,22 @@ const socketIO = require("socket.io");
 const server = http.createServer(app);
 const io = socketIO(server);
 const fs = require('fs');
+const CryptoJS = require('crypto-js');
+
+io.setMaxListeners(20);
+
+// Encrypt Room ID
+function encryptRoomID(roomID) {
+  const secretKey = 'your-secret-key'; // Replace with your actual secret key
+  return CryptoJS.AES.encrypt(roomID, secretKey).toString();
+}
+
+// Decrypt Room ID
+function decryptRoomID(encryptedID) {
+  const secretKey = 'your-secret-key';
+  const bytes = CryptoJS.AES.decrypt(encryptedID, secretKey);
+  return bytes.toString(CryptoJS.enc.Utf8);
+}
 
 io.on("connection", (socket) => {
   console.log("A user connected");

@@ -12,7 +12,7 @@
     <div class="container">
         <section class="transfer-section">
             <div class="transfer-header">
-                <h2>Want To Transfer Files {{fullname}} ?</h2>
+                <h2>Want To Transfer Files {{fullname}}?</h2>
                 <p>Discover nearby devices to send files effortlessly.</p>
                 <div class="transfer-buttons">
                     <button class="transfer-device-btn">Send Files</button>
@@ -28,7 +28,10 @@
         </section>
         
         <script>
-            // Handling file transfer and receiving button clicks
+            const devicesSection = document.getElementById('devicesSection');
+            const scanDevicesBtn = document.getElementById('scanDevicesBtn');
+
+            // Handle file transfer and receiving
             const transferButtons = document.querySelectorAll('.transfer-device-btn');
             transferButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -43,30 +46,33 @@
                 });
             });
 
-            // Bluetooth scanning functionality
-            const scanDevicesBtn = document.getElementById('scanDevicesBtn');
-            const devicesSection = document.getElementById('devicesSection');
+            // Bluetooth scanning using requestDevice
+            scanDevicesBtn.addEventListener('click', async () => {
+                try {
+                    // Check if Bluetooth is supported by the browser
+                    if (!navigator.bluetooth) {
+                        alert('Web Bluetooth API is not available in this browser.');
+                        return;
+                    }
 
-            scanDevicesBtn.addEventListener('click', () => {
-                if (navigator.bluetooth) {
-                    navigator.bluetooth.requestDevice({ acceptAllDevices: true })
-                        .then(device => {
-                            const deviceName = device.name || 'Unknown Device';
-                            const deviceCard = `
-                                <div class="device-card">
-                                    <span>${deviceName}</span>
-                                    <button class="transfer-device-btn">Transfer</button>
-                                </div>
-                            `;
-                            // Append the new device to the devices section
-                            devicesSection.insertAdjacentHTML('beforeend', deviceCard);
-                        })
-                        .catch(error => {
-                            console.error('Error scanning for devices:', error);
-                            alert('Error scanning for devices. Make sure your browser and device support Bluetooth.');
-                        });
-                } else {
-                    alert('Web Bluetooth API is not available in this browser.');
+                    // Requesting available Bluetooth devices
+                    const device = await navigator.bluetooth.requestDevice({
+                        acceptAllDevices: true
+                    });
+
+                    // Display the discovered device in the devices section
+                    const deviceName = device.name || 'Unknown Device';
+                    const deviceCard = `
+                        <div class="device-card">
+                            <span>${deviceName}</span>
+                            <button class="transfer-device-btn">Transfer</button>
+                        </div>
+                    `;
+                    devicesSection.insertAdjacentHTML('beforeend', deviceCard);
+
+                } catch (error) {
+                    console.error('Error during Bluetooth scanning:', error);
+                    alert('Failed to start Bluetooth scanning. Ensure that the page is served over HTTPS.');
                 }
             });
         </script>

@@ -12,9 +12,18 @@
     <div class="container">
         <div class="main">
             <h1 style="color:white;">Transfer File, <br>{{fullname}} <br><br>
-            <button class="transfer-device-btn" id="sender-btn">Create Room</button>
-            <br><br><b id="room-id">Room Id:</b>
+            <b id="room-id">Room Id:</b> <!-- Room ID will be shown here -->
             </h1>
+                         <div class="file-upload-container">
+                <h1 style="color:white;">Android/IOS</h1>
+                <div class="file-upload">
+                    <form class="file-upload-form" id="fileUploadForm">
+                        <label class="file-upload-label" id="fileUploadLabel">
+                             <div id="qrcode"></div>
+                        </label>
+                    </form>
+                </div>
+            </div>
             <div class="file-upload-container">
                 <div class="file-upload">
                     <form class="file-upload-form" id="fileUploadForm">
@@ -38,18 +47,52 @@
         </div>
         <!-- Script JS -->
         <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
         <script>
             const fileInput = document.getElementById('file');
             const fileUploadLabel = document.getElementById('fileUploadLabel');
             const filesUploadedContainer = document.getElementById('filesUploaded');
-            const senderBtn = document.getElementById('sender-btn');
             const roomIdDisplay = document.getElementById('room-id');
             const socket = io();
 
             let previousRoomID = null;
+            let qrCodeContainer = document.getElementById('qrcode'); // QR code container
 
             function generateID() {
                 return `${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}-${Math.trunc(Math.random() * 999)}`;
+            }
+
+            function initializeRoom() {
+                const roomID = generateID();
+                roomIdDisplay.innerHTML = `Room ID: ${roomID}`;
+                console.log(`Room ID: ${roomID}`);
+
+                if (previousRoomID) {
+                    socket.emit('leave-room', { uid: previousRoomID });
+                }
+
+                socket.emit('sender-join', { uid: roomID });
+                previousRoomID = roomID;
+
+                // Generate QR Code with URL and room ID
+                generateQRCode(roomID);
+            }
+
+
+            // Automatically create room ID when the page loads
+            window.onload = initializeRoom;
+
+
+            // Function to generate the QR code
+            function generateQRCode(roomID) {
+                const qrURL = `${window.location.origin}/TransReceiver?roomID=${roomID}`; // Transreceiver page with room ID
+                qrCodeContainer.innerHTML = ''; // Clear previous QR code
+                new QRCode(qrCodeContainer, {
+                    text: qrURL,
+                    width: 128,
+                    height: 128,
+                });
             }
 
             fileUploadLabel.addEventListener('dragover', (e) => {
@@ -142,19 +185,6 @@
 
                 readNextChunk();
             }
-
-            senderBtn.addEventListener('click', () => {
-                const roomID = generateID();
-                roomIdDisplay.innerHTML = `Room ID: ${roomID}`;
-                console.log(`Room ID: ${roomID}`);
-
-                if (previousRoomID) {
-                    socket.emit('leave-room', { uid: previousRoomID });
-                }
-
-                socket.emit('sender-join', { uid: roomID });
-                previousRoomID = roomID;
-            });
         </script>
         {{>footer}}
     </div>
