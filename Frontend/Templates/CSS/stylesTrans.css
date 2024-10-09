@@ -50,7 +50,7 @@ header {
 }
 
 .transfer-buttons {
-  font-size: 2vw;
+   font-size: 2vw;
   display: inline-flex;
   gap: 10px;
 }
