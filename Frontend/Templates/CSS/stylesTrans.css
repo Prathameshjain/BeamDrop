@@ -97,7 +97,7 @@ body::before {
   font-size: 18px;
 }
 
-.transfer-device-btn, .receive-device-btn {
+.transfer-device-btn, .receive-device-btn , .search-device-btn {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -108,7 +108,8 @@ body::before {
 }
 
 .transfer-device-btn:hover,
-.receive-device-btn:hover {
+.receive-device-btn:hover,
+.search-device-btn:hover {
   background-color: #666;
 }
 

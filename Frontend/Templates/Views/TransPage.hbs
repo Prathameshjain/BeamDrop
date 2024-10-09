@@ -13,42 +13,61 @@
         <section class="transfer-section">
             <div class="transfer-header">
                 <h2>Want To Transfer Files {{fullname}} ?</h2>
-                <p>Discover nearby devices to send files effortlessly .</p>
+                <p>Discover nearby devices to send files effortlessly.</p>
                 <div class="transfer-buttons">
                     <button class="transfer-device-btn">Send Files</button>
                     <button class="receive-device-btn">Receive Files</button>
+                    <button class="search-device-btn" id="scanDevicesBtn">Scan Devices</button>
                 </div>
             </div>
 
-            <div class="devices-section">
+            <div class="devices-section" id="devicesSection">
                 <h3>Available Devices</h3>
-                <div class="device-card">
-                    <span>John's Laptop</span>
-                    <button class="transfer-device-btn">Transfer</button>
-                </div>
-                <div class="device-card">
-                    <span>Jane's Phone</span>
-                    <button class="transfer-device-btn">Transfer</button>
-                </div>
-                <div class="device-card">
-                    <span>Alex's Tablet</span>
-                    <button class="transfer-device-btn">Transfer</button>
-                </div>
+                <!-- Devices will be listed here dynamically -->
             </div>
         </section>
         
         <script>
+            // Handling file transfer and receiving button clicks
             const transferButtons = document.querySelectorAll('.transfer-device-btn');
             transferButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     window.location.href = '/TransUpload';
                 });
             });
+
             const receiverButtons = document.querySelectorAll('.receive-device-btn');
             receiverButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     window.location.href = '/TransReceiver';
                 });
+            });
+
+            // Bluetooth scanning functionality
+            const scanDevicesBtn = document.getElementById('scanDevicesBtn');
+            const devicesSection = document.getElementById('devicesSection');
+
+            scanDevicesBtn.addEventListener('click', () => {
+                if (navigator.bluetooth) {
+                    navigator.bluetooth.requestDevice({ acceptAllDevices: true })
+                        .then(device => {
+                            const deviceName = device.name || 'Unknown Device';
+                            const deviceCard = `
+                                <div class="device-card">
+                                    <span>${deviceName}</span>
+                                    <button class="transfer-device-btn">Transfer</button>
+                                </div>
+                            `;
+                            // Append the new device to the devices section
+                            devicesSection.insertAdjacentHTML('beforeend', deviceCard);
+                        })
+                        .catch(error => {
+                            console.error('Error scanning for devices:', error);
+                            alert('Error scanning for devices. Make sure your browser and device support Bluetooth.');
+                        });
+                } else {
+                    alert('Web Bluetooth API is not available in this browser.');
+                }
             });
         </script>
 
