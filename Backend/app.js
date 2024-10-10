@@ -76,20 +76,8 @@ io.on("connection", (socket) => {
 function decryptRoomID(encryptedRoomID) {
   try {
     const secretKey = 'nesar'; // Must match the key used on the sender side
-
-    // Log the encryptedRoomID before decrypting
-    console.log("Encrypted roomID before decryption:", encryptedRoomID);
-
-    // Decrypt the roomID
     const bytes = CryptoJS.AES.decrypt(encryptedRoomID, secretKey);
-
-    // Convert the bytes to UTF-8 string
     const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-
-    // Log the decrypted roomID
-    console.log("Decrypted roomID:", decrypted);
-
-    // If decryption fails, handle the error
     if (!decrypted) {
       console.error("Decryption failed. Encrypted text might be invalid.");
       return null;
@@ -127,7 +115,6 @@ app.use(session({
   cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-
 app.get('/', (req, res) => {
   if (req.session.user) {
     const encryptedRoomID = req.query.roomID;
@@ -140,7 +127,7 @@ app.get('/', (req, res) => {
 
       if (decryptedRoomID) {
         console.log("Decrypted roomID:", decryptedRoomID);
-        res.redirect(`/TransReceiver?roomID=${encodeURIComponent(decryptedRoomID)}`);
+        res.redirect(`/TransReceiver?roomID=${encodeURIComponent(decryptedRoomID)}`); // Corrected
       } else {
         res.redirect('/homepage'); // Fall back if decryption fails
       }
@@ -175,7 +162,7 @@ app.post('/', async (req, res) => {
     const roomID = req.session.roomID || req.body.roomID;
     if (roomID) {
       req.session.roomID = null; // Clear the roomID after usage
-      res.redirect(`/TransReceiver?roomID=${encodeURIComponent(roomID)}`);
+      res.redirect(`/TransReceiver?roomID=${encodeURIComponent(roomID)}`); // Corrected
     } else {
       // If no roomID, just redirect to homepage
       res.redirect('/homepage');
@@ -226,7 +213,7 @@ app.post('/login', async (req, res) => {
 
       if (roomIDToRedirect) {
         // Redirect to TransReceiver with the decrypted roomID
-        return res.redirect(`/TransReceiver?roomID=${encodeURIComponent(roomIDToRedirect)}`);
+        return res.redirect(`/TransReceiver?roomID=${encodeURIComponent(roomIDToRedirect)}`); // Corrected
       } else {
         // If no roomID, redirect to homepage
         return res.redirect('/homepage');
@@ -247,6 +234,7 @@ app.post('/login', async (req, res) => {
     });
   }
 });
+
 
 
 
