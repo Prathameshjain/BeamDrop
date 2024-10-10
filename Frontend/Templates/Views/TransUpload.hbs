@@ -48,6 +48,7 @@
         <!-- Script JS -->
         <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
         <script>
             const fileInput = document.getElementById('file');
@@ -83,16 +84,22 @@
             // Automatically create room ID when the page loads
             window.onload = initializeRoom;
 
+            function encryptRoomID(roomID) {
+            const secretKey = 'nesar'; // Replace with a strong key
+            return CryptoJS.AES.encrypt(roomID, secretKey).toString();
+            }
+
 
             // Function to generate the QR code
             function generateQRCode(roomID) {
-                const qrURL = `${window.location.origin}/TransReceiver?roomID=${roomID}`; // Transreceiver page with room ID
-                qrCodeContainer.innerHTML = ''; // Clear previous QR code
-                new QRCode(qrCodeContainer, {
-                    text: qrURL,
-                    width: 128,
-                    height: 128,
-                });
+            const encryptedRoomID = encryptRoomID(roomID);
+            const qrURL = `${window.location.origin}/TransReceiver?roomID=${encodeURIComponent(encryptedRoomID)}`;
+            qrCodeContainer.innerHTML = ''; // Clear previous QR code
+            new QRCode(qrCodeContainer, {
+                text: qrURL,
+                width: 128,
+                height: 128,
+            });
             }
 
             fileUploadLabel.addEventListener('dragover', (e) => {

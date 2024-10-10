@@ -14,19 +14,6 @@ const CryptoJS = require('crypto-js');
 
 io.setMaxListeners(20);
 
-// Encrypt Room ID
-function encryptRoomID(roomID) {
-  const secretKey = 'your-secret-key'; // Replace with your actual secret key
-  return CryptoJS.AES.encrypt(roomID, secretKey).toString();
-}
-
-// Decrypt Room ID
-function decryptRoomID(encryptedID) {
-  const secretKey = 'your-secret-key';
-  const bytes = CryptoJS.AES.decrypt(encryptedID, secretKey);
-  return bytes.toString(CryptoJS.enc.Utf8);
-}
-
 io.on("connection", (socket) => {
   console.log("A user connected");
 
@@ -86,6 +73,33 @@ io.on("connection", (socket) => {
   });
 });
 
+function decryptRoomID(encryptedRoomID) {
+  try {
+    const secretKey = 'nesar'; // Must match the key used on the sender side
+
+    // Log the encryptedRoomID before decrypting
+    console.log("Encrypted roomID before decryption:", encryptedRoomID);
+
+    // Decrypt the roomID
+    const bytes = CryptoJS.AES.decrypt(encryptedRoomID, secretKey);
+
+    // Convert the bytes to UTF-8 string
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
+    // Log the decrypted roomID
+    console.log("Decrypted roomID:", decrypted);
+
+    // If decryption fails, handle the error
+    if (!decrypted) {
+      console.error("Decryption failed. Encrypted text might be invalid.");
+      return null;
+    }
+    return decrypted;
+  } catch (error) {
+    console.error("Error during decryption:", error);
+    return null;
+  }
+}
 
 
 
@@ -113,13 +127,31 @@ app.use(session({
   cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-app.get("/", (req, res) => {
+
+app.get('/', (req, res) => {
   if (req.session.user) {
-    // Redirect to homepage if user is already logged in
-    res.redirect('/homepage');
+    const encryptedRoomID = req.query.roomID;
+    
+    // Log to check what is being received
+    console.log("Received encrypted roomID:", encryptedRoomID);
+
+    if (encryptedRoomID) {
+      const decryptedRoomID = decryptRoomID(encryptedRoomID);
+
+      if (decryptedRoomID) {
+        console.log("Decrypted roomID:", decryptedRoomID);
+        res.redirect(`/TransReceiver?roomID=${encodeURIComponent(decryptedRoomID)}`);
+      } else {
+        res.redirect('/homepage'); // Fall back if decryption fails
+      }
+    } else {
+      res.redirect('/homepage');
+    }
   } else {
-    // Render index page if no active session
-    res.render("index");
+    if (req.query.roomID) {
+      req.session.roomID = req.query.roomID;
+    }
+    res.render("index", { roomID: req.session.roomID });
   }
 });
 
@@ -130,11 +162,24 @@ app.post('/', async (req, res) => {
       email: req.body.email,
       passwordregister: req.body.passwordregister,
     });
-    // Save the user, the password will be hashed automatically due to the pre-save hook
+    // Save the user
     await userregister.save();
-    // Redirect to the index page with a query parameter
-    res.redirect('/?showLogin=true');
+    
+    // Set session for the new user
+    req.session.user = {
+      email: req.body.email,
+      fullname: req.body.fullname
+    };
 
+    // Redirect to the room if roomID is in session or in the request body
+    const roomID = req.session.roomID || req.body.roomID;
+    if (roomID) {
+      req.session.roomID = null; // Clear the roomID after usage
+      res.redirect(`/TransReceiver?roomID=${encodeURIComponent(roomID)}`);
+    } else {
+      // If no roomID, just redirect to homepage
+      res.redirect('/homepage');
+    }
   } catch (error) {
     const userInput = {
       fullname: req.body.fullname,
@@ -161,35 +206,49 @@ app.post('/', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   try {
-    const Loginemail = req.body.Loginemail;
-    const Loginpassword = req.body.Loginpassword;
+    const { Loginemail, Loginpassword } = req.body;
     const user = await Registration.findOne({ email: Loginemail });
 
     if (user && await bcrypt.compare(Loginpassword, user.passwordregister)) {
-      req.session.user = {
-        email: user.email,
-        fullname: user.fullname
-      };
-      res.redirect('/homepage');
+      req.session.user = { email: user.email, fullname: user.fullname };
+
+      // Check if a roomID exists in the session
+      let roomIDToRedirect = null;
+      
+      if (req.session.roomID) {
+        console.log("Encrypted roomID found in session:", req.session.roomID);
+        
+        roomIDToRedirect = decryptRoomID(req.session.roomID);
+        console.log("Decrypted roomID:", roomIDToRedirect);
+
+        req.session.roomID = null;  // Clear the session value after use
+      }
+
+      if (roomIDToRedirect) {
+        // Redirect to TransReceiver with the decrypted roomID
+        return res.redirect(`/TransReceiver?roomID=${encodeURIComponent(roomIDToRedirect)}`);
+      } else {
+        // If no roomID, redirect to homepage
+        return res.redirect('/homepage');
+      }
     } else {
       res.status(400).render("index", {
         errorMessage1: "Invalid Email/Password.",
         showLogin: true,
-        userInput: {
-          Loginemail: Loginemail
-        }
+        userInput: { Loginemail }
       });
     }
   } catch (error) {
+    console.error("Error during login:", error);
     res.status(400).render("index", {
       errorMessage1: "An error occurred. Please try again.",
       showLogin: true,
-      userInput: {
-        Loginemail: req.body.Loginemail
-      }
+      userInput: { Loginemail: req.body.Loginemail }
     });
   }
 });
+
+
 
 // Authentication middleware
 function checkAuthentication(req, res, next) {
@@ -245,6 +304,7 @@ app.get('/TransReceiver', checkAuthentication, (req, res) => {
     fullname: req.session.user.fullname
   });
 });
+
 
 portfinder.getPort((err, port) => {
   server.listen(port, () => {
