@@ -41,6 +41,6 @@ userSchema.pre('save', async function(next) {
     }
 });
 
-const Registration = mongoose.model("Userprofiles", userSchema);
+const Registration = mongoose.model("userprofiles", userSchema);
 
 module.exports = Registration;
