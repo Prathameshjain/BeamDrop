@@ -1,6 +1,3 @@
-Here is the `README.md` file for your project, formatted for direct use in a GitHub repository:
-
-```markdown
 # NESARW BeamDrop
 
 ## 📌 Overview
