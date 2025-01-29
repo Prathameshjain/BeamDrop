@@ -1,4 +1,4 @@
-# NESARW BeamDrop
+# BeamDrop
 
 ## 📌 Overview
 NESARW BeamDrop is a backend application designed to handle user registrations and manage database connections efficiently. It is built using **Node.js**, **Express.js**, and **MongoDB**.
