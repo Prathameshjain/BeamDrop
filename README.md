@@ -27,7 +27,7 @@ Make sure you have the following installed:
 ### 2️⃣ Installation
 Clone the repository and install dependencies:
 ```bash
-git clone https://github.com/yourusername/nesarw-beamdrop.git
+git clone https://github.com/nesarw/nesarw-beamdrop.git
 cd nesarw-beamdrop/Backend
 npm install
 ```
