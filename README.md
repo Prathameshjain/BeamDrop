@@ -5,7 +5,7 @@
 
 ## 📂 Project Structure
 ```
-nesarw-beamdrop/
+beamdrop/
 │── Backend/
 │   ├── app.js                # Main server file
 │   ├── package.json          # Project dependencies
